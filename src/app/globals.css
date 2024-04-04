@@ -13,5 +13,5 @@ body{
 }
 
 .whiteBox{
-  @apply text-white border-2 border-white bg-gray-700 m-auto
+  @apply text-white border-2 border-white bg-gray-700
 }
