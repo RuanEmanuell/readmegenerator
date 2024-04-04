@@ -1,16 +1,11 @@
 "use client"
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type Tech = [string, string];
 
 export default function Home() {
-  const [projectName, setProjectName] = useState<string>("");
-  const [projectWebsite, setProjectWebsite] = useState<string>("");
-  const [projectDescription, setProjectDescription] = useState<string>("");
-  const [projectInstructions, setProjectInstructions] = useState<string>("");
-  const [currentTech, setCurrentTech] = useState<Tech>(["HTML", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"]);
-  const [selectedTechs, setSelectedTechs] = useState<Tech[]>([]);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const techs: Tech[] = [
     // Web
@@ -27,7 +22,7 @@ export default function Home() {
     ["ASP.NET", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dot-net/dot-net-original.svg"],
     ["Java", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"],
     ["Spring", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg"],
-  
+
     // Mobile
     ["Flutter", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg"],
     ["React Native", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"],
@@ -35,23 +30,23 @@ export default function Home() {
     ["Swift", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg"],
     ["Kotlin", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg"],
     ["Xamarin", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/xamarin/xamarin-original.svg"],
-  
+
     // Desktop
     ["Electron", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/electron/electron-original.svg"],
     ["C#", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"],
     ["Qt", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/qt/qt-original.svg"],
-  
+
     // Databases
     ["PostgreSQL", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"],
     ["MongoDB", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg"],
     ["MySQL", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"],
     ["Redis", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg"],
-  
+
     // Testing
-    ["Jest", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-original.svg"],
+    ["Jest", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/jest/jest-plain.svg"],
     ["Mocha", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mocha/mocha-original.svg"],
-    ["Cypressio", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cypress/cypressio-original.svg"],
-  
+    ["Cypressio", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cypressio/cypressio-original.svg"],
+
     // CI/CD & DevOps
     ["Docker", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg"],
     ["Kubernetes", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kubernetes/kubernetes-original.svg"],
@@ -59,17 +54,24 @@ export default function Home() {
     ["GitHub", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"],
     ["GitHub Actions", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"],
     ["GitLab", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/gitlab/gitlab-original.svg"],
-  
+
     // Scripting
     ["Bash", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg"],
     ["PowerShell", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/powershell/powershell-original.svg"],
-  
+
     // Games
     ["Unity", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg"],
-    ["Unreal Engine", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unreal/unreal-original.svg"],
+    ["Unreal Engine", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unrealengine/unrealengine-original.svg"],
     ["Godot", "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/godot/godot-original.svg"]
   ];
-  
+
+  const [projectName, setProjectName] = useState<string>("");
+  const [projectWebsite, setProjectWebsite] = useState<string>("");
+  const [projectDescription, setProjectDescription] = useState<string>("");
+  const [projectInstructions, setProjectInstructions] = useState<string>("");
+  const [currentTech, setCurrentTech] = useState<Tech>(techs.sort()[0]);
+  const [selectedTechs, setSelectedTechs] = useState<Tech[]>([]);
+
 
   function addTech() {
     if (!selectedTechs.some(tech => JSON.stringify(tech) === JSON.stringify(currentTech))) {
@@ -81,71 +83,108 @@ export default function Home() {
     setSelectedTechs(prev => prev.filter(item => item !== tech));
   }
 
+  function openSaveMenu() {
+    dialogRef.current?.showModal();
+  }
+
+  function closeSaveMenu() {
+    dialogRef.current?.close();
+  }
+
   return (
-    <div className="w-full h-max">
-      <main className="max-w-screen-xl h-full m-auto flex justify-center flex-col">
-        <h1 className="text-center text-white font-bold text-4xl my-5">README Generator</h1>
-        <section className="w-11/12 md:w-10/12 h-full mx-auto border-4 border-green-700 rounded">
-          <div className="w-full h-1/3 md:h-1/6 grid grid-cols-1 md:grid-cols-2">
-            <div className="h-full flex justify-center flex-col">
-              <h1 className="text-white my-5 text-center">Project Name</h1>
-              <input className="whiteBox h-1/2 w-11/12 m-auto"
-                value={projectName}
-                onChange={(event) => setProjectName(event.target.value)}>
-              </input>
+    <>
+      <div className="w-full h-full">
+        <main className="max-w-screen-xl h-max m-auto flex justify-center flex-col">
+          <h1 className="text-center text-white font-bold text-4xl my-5">README Generator</h1>
+          <section className="w-11/12 md:w-3/4 h-screen mx-auto border-4 border-green-700 rounded overflow-auto">
+            <div className="w-full h-1/4 md:h-1/8 grid grid-cols-1 md:grid-cols-2">
+              <div className="h-full flex justify-center flex-col">
+                <h1 className="text-white my-5 text-center">Project Name</h1>
+                <input className="whiteBox h-1/2 w-11/12 m-auto"
+                  value={projectName}
+                  onChange={(event) => setProjectName(event.target.value)}>
+                </input>
+              </div>
+              <div className="flex justify-center flex-col">
+                <h1 className="text-white my-5 text-center">Project Website</h1>
+                <input className="whiteBox h-1/2 w-11/12 m-auto"
+                  value={projectWebsite}
+                  onChange={(event) => setProjectWebsite(event.target.value)}>
+                </input>
+              </div>
             </div>
-            <div className="flex justify-center flex-col">
-              <h1 className="text-white my-5 text-center">Project Website</h1>
-              <input className="whiteBox h-1/2 w-11/12 m-auto"
-                value={projectWebsite}
-                onChange={(event) => setProjectWebsite(event.target.value)}>
-              </input>
+            <div className="w-full h-1/2 md:h-1/4 grid grid-cols-1 md:grid-cols-2">
+              <div className="h-full w-full flex justify-center flex-col">
+                <h1 className="text-white my-5 text-center">Project Description</h1>
+                <textarea className="whiteBox h-3/4 w-11/12 m-auto"
+                  value={projectDescription}
+                  onChange={(event) => setProjectDescription(event.target.value)}>
+                </textarea>
+              </div>
+              <div className="h-full w-full flex justify-center flex-col">
+                <h1 className="text-white my-5 text-center">Project Run Instructions</h1>
+                <textarea className="whiteBox h-3/4 w-11/12 m-auto"
+                  value={projectInstructions}
+                  onChange={(event) => setProjectInstructions(event.target.value)}>
+                </textarea>
+              </div>
             </div>
-          </div>
-          <div className="w-full h-1/3 grid grid-cols-1 md:grid-cols-2">
-            <div className="h-full w-full flex justify-center flex-col">
-              <h1 className="text-white my-5 text-center">Project Description</h1>
-              <textarea className="whiteBox h-3/4 w-11/12 m-auto"
-                value={projectDescription}
-                onChange={(event) => setProjectDescription(event.target.value)}>
-              </textarea>
+            <div className="w-full h-3/5 my-auto">
+              <div className="h-full w-full text-center">
+                <h1 className="text-white my-5">Project Techs</h1>
+                <section className="whiteBox h-5/6 w-11/12 flex flex-col my-5 mx-auto">
+                  <select className="bg-gray-800 text-white w-1/2 h-16 text-center my-5 m-auto">
+                    {Object.values(techs.sort()).map(tech =>
+                      <option
+                        className="bg-gray-800"
+                        key={tech[0]}
+                        onClick={() => setCurrentTech(tech)}
+                      >{tech[0]}</option>)}
+                  </select>
+                  <button className="bg-blue-600 text-white w-32 h-12 font-bold mx-auto"
+                    onClick={addTech}>Add</button>
+                  <div className="border-t-2 border-gray-600 h-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 mt-5 overflow-auto">
+                    {Object.values(selectedTechs).map(tech =>
+                      <div key={tech[0]} className="w-40 h-10 mx-auto my-2.5 grid grid-cols-5 bg-gray-800 cursor-pointer" onClick={() => removeTech(tech)}>
+                        <div className="col-span-1 my-auto">
+                          <img src={tech[1]} alt={tech[0]} className="h-auto w-1/2 object-cover mx-2.5" />
+                        </div>
+                        <p className="col-span-4 text-white my-auto">{tech[0]}</p>
+                      </div>)}
+                  </div>
+                </section>
+              </div>
             </div>
-            <div className="h-full w-full flex justify-center flex-col">
-              <h1 className="text-white my-5 text-center">Project Run Instructions</h1>
-              <textarea className="whiteBox h-3/4 w-11/12 m-auto"
-                value={projectInstructions}
-                onChange={(event) => setProjectInstructions(event.target.value)}>
-              </textarea>
+          </section>
+          <button className="bg-green-800 text-white w-48 h-12 font-bold mx-auto my-5"
+            onClick={openSaveMenu}>Save</button>
+        </main>
+      </div>
+      <dialog ref={dialogRef} className="h-full w-full" onClick={closeSaveMenu}>
+        <div className="m-auto flex flex-col">
+          <section className="border-2 bg-gray-800 h-max w-full max-w-screen-md mx-auto my-5">
+            <h1 className="border-b-2 border-gray-700 text-white font-bold text-4xl m-5">{projectName}</h1>
+            <h2 className="text-white font-bold text-2xl m-5">What is this? 🤔</h2>
+            <p className="text-white text-lg m-5">{projectDescription}</p>
+            <h2 className="text-white font-bold text-2xl m-5">Where can I acess it? 🖥</h2>
+            <p className="text-white text-lg m-5">You can acess it <a href={projectDescription} target="_blank" className="text-blue-500">here</a></p>
+            <h2 className="text-white font-bold text-2xl m-5">Which tecnologies were used to build it? 🚀 </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 m-5">
+              {Object.values(selectedTechs).map(tech =>
+                <div key={tech[0]} className="w-40 h-10 my-2.5 grid grid-cols-5 bg-gray-700 cursor-pointer">
+                  <div className="col-span-1 my-auto">
+                    <img src={tech[1]} alt={tech[0]} className="h-auto w-1/2 object-cover mx-2.5" />
+                  </div>
+                  <p className="col-span-4 text-white my-auto">{tech[0]}</p>
+                </div>)}
             </div>
-          </div>
-          <div className="w-full h-1/2">
-            <div className="h-full w-full text-center">
-              <h1 className="text-white my-5">Project Techs</h1>
-              <section className="whiteBox h-5/6 w-11/12 flex flex-col my-5 mx-auto">
-                <select className="bg-gray-800 text-white w-1/2 h-16 text-center my-4 m-auto">
-                  {Object.values(techs.sort()).map(tech =>
-                    <option
-                      className="bg-gray-800"
-                      key={tech[0]}
-                      onClick={() => setCurrentTech(tech)}
-                    >{tech[0]}</option>)}
-                </select>
-                <button className="bg-green-800 text-white w-32 h-12 font-bold mx-auto"
-                  onClick={addTech}>Add</button>
-                <div className="h-1/2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 my-5">
-                  {Object.values(selectedTechs).map(tech =>
-                    <div key={tech[0]} className="w-40 h-10 mx-auto my-2.5 grid grid-cols-5 bg-gray-800 cursor-pointer" onClick={() => removeTech(tech)}>
-                      <div className="col-span-1 my-auto">
-                        <img src={tech[1]} alt={tech[0]} className="h-auto w-1/2 object-cover mx-2.5" />
-                      </div>
-                      <p className="col-span-4 text-white my-auto">{tech[0]}</p>
-                    </div>)}
-                </div>
-              </section>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
+            <h2 className="text-white font-bold text-2xl m-5">How to run in development mode 🏃</h2>
+            <p className="m-5 text-white bg-gray-700">{projectInstructions}</p>
+          </section>
+          <button className="bg-green-800 text-white w-48 h-12 font-bold mx-auto my-5"
+            onClick={openSaveMenu}>Copy</button>
+        </div>
+      </dialog>
+    </>
   );
 }
