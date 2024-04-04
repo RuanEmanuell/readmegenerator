@@ -12,3 +12,6 @@ body{
   background-color: theme("colors.gray.800");
 }
 
+.whiteBox{
+  @apply text-white border-2 border-white bg-gray-700 m-auto
+}
