@@ -72,7 +72,6 @@ export default function Home() {
   const [currentTech, setCurrentTech] = useState<Tech>(techs.sort()[0]);
   const [selectedTechs, setSelectedTechs] = useState<Tech[]>([]);
 
-
   function addTech() {
     if (!selectedTechs.some(tech => JSON.stringify(tech) === JSON.stringify(currentTech))) {
       setSelectedTechs(prev => [...prev, currentTech]);
@@ -83,7 +82,7 @@ export default function Home() {
     setSelectedTechs(prev => prev.filter(item => item !== tech));
   }
 
-  function selectTech(event: ChangeEvent<HTMLSelectElement>){
+  function selectTech(event: ChangeEvent<HTMLSelectElement>) {
     setCurrentTech(techs[event.target.selectedIndex]);
   }
 
@@ -95,10 +94,69 @@ export default function Home() {
     dialogRef.current?.close();
   }
 
+
+  async function generateReadmeText() {
+    const techsText = selectedTechs.map(tech => 
+    `<div style="background-color: #333; width: 200px; height: 50px; padding: 10px; display:flex; margin: 5px">
+      <img src='${tech[1]}' width="25" height="25" style="border-radius:5px">
+      <p style="color: white; padding: 5px">${tech[0]}</p>
+    </div>`).join('\n\t');
+
+    const instructionsText = "\t\t" + projectInstructions.split("\n").join("\n\t\t");
+
+    const readmeText =
+      `## ${projectName}
+    
+### What is this? 🤔 
+${projectDescription}
+    
+### Where can I acess it? 🖥
+You can acess it <a href="${projectWebsite}">here</a>
+    
+### Which tecnologies were used to build it? 🚀 
+<div style="display: flex; flex-wrap: wrap">${techsText}</div>
+    
+### How to run 🏃
+    
+${instructionsText}`
+
+    return readmeText;
+  }
+
+  async function copyReadmeText() {
+    try {
+      await navigator.clipboard.writeText(await generateReadmeText());
+    } catch (error) {
+      alert("Erro ao copiar: " + error);
+    }
+  }
+
+  async function downloadReadme() {
+    try {
+      const readmeText = await generateReadmeText();
+      const readmeBlob = new Blob([readmeText], { type: "text/markdown" });
+      const url = URL.createObjectURL(readmeBlob);
+
+      const tempDownloadLink = document.createElement("a");
+      document.body.appendChild(tempDownloadLink);
+      tempDownloadLink.style.display = 'none';
+      tempDownloadLink.href = url;
+      tempDownloadLink.download = "README.md";
+
+      tempDownloadLink.click();
+
+      URL.revokeObjectURL(url);
+      tempDownloadLink.remove();
+    } catch (error) {
+      alert("Erro ao tentar baixar o arquivo: " + error);
+    }
+  }
+
+
   return (
     <>
       <div className="w-full h-full">
-        <main className="max-w-screen-xl h-max m-auto flex justify-center flex-col">
+        <main className="max-w-screen-lg h-max m-auto flex justify-center flex-col">
           <h1 className="text-center text-white font-bold text-4xl my-5">README Generator</h1>
           <section className="w-11/12 md:w-3/4 h-screen mx-auto border-4 border-green-700 rounded overflow-auto">
             <div className="w-full h-1/3 sm:h-1/4 md:h-1/8 grid grid-cols-1 md:grid-cols-2 my-5">
@@ -138,7 +196,7 @@ export default function Home() {
                 <h1 className="text-white my-5">Project Techs</h1>
                 <section className="whiteBox h-5/6 w-11/12 flex flex-col my-5 mx-auto">
                   <select className="bg-gray-800 text-white w-1/2 h-16 text-center my-5 m-auto"
-                  onChange={(event) => selectTech(event)}>
+                    onChange={(event) => selectTech(event)}>
                     {Object.values(techs.sort()).map((tech, index) =>
                       <option
                         className="bg-gray-800"
@@ -185,11 +243,13 @@ export default function Home() {
             </div>
             <h2 className="text-white font-bold text-2xl m-5">How to run in development mode 🏃</h2>
             <div className="mb-5">
-              {projectInstructions.split("\n").map((instruction, index) =><p key={index} className="mx-5 pl-2.5 text-white bg-gray-700">{instruction}</p>)}
+              {projectInstructions.split("\n").map((instruction, index) => <p key={index} className="mx-5 pl-2.5 text-white bg-gray-700">{instruction}</p>)}
             </div>
           </section>
           <button className="bg-green-800 text-white w-48 h-12 font-bold mx-auto my-5"
-            onClick={openSaveMenu}>Copy</button>
+            onClick={copyReadmeText}>Copy</button>
+          <button className="downloadButton bg-blue-600 text-white w-48 h-12 font-bold mx-auto my-5"
+            onClick={downloadReadme}>Download</button>
         </div>
       </dialog>
     </>
