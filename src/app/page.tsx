@@ -104,10 +104,12 @@ export default function Home() {
 
   async function generateReadmeText() {
     const techsText = selectedTechs.map(tech => 
-    `<div style="float:left; background-color: #333; width: 200px; height: 50px; padding: 10px; display:flex; margin: 5px">
-      <img src='${tech[1]}' width="25" height="25" style="border-radius:5px">
-      <p style="color: white; padding: 5px">${tech[0]}</p>
-    </div>`).join('\n\t');
+    `<td style="padding: 5px;">
+        <div style="background-color: #333; width: 200px; height: 50px; padding: 10px;">
+            <img src='${tech[1]}' width="25" height="25" style="border-radius: 5px;">
+            <p style="color: white; padding: 5px; margin: 0;">${tech[0]}</p>
+        </div>
+    </td>`).join('');
 
     const instructionsText = "\t\t" + projectInstructions.split("\n").join("\n\t\t");
 
@@ -117,17 +119,18 @@ export default function Home() {
 ### What is this? 🤔 
 ${projectDescription}
     
-### Where can I acess it? 🖥
-You can acess it <a href="${projectWebsite}">here</a>
+### Where can I access it? 🖥
+You can access it <a href="${projectWebsite}">here</a>
     
-### Which tecnologies were used to build it? 🚀 
-<div style="overflow: auto">${techsText}</div>
+### Which technologies were used to build it? 🚀 
+<table><tr>${techsText}</tr></table>
     
 ### How to run 🏃
-${instructionsText}`
+${instructionsText}`;
 
     return readmeText;
-  }
+}
+
 
   async function copyReadmeText() {
     try {

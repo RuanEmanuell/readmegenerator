@@ -11,14 +11,17 @@ This README was generated using it! However, it is still under development, and 
 You can acess it <a href="https://readmegenerator-ruanemanuell.vercel.app/">here</a>
     
 ### Which tecnologies were used to build it? 🚀 
-<div style="overflow: auto"><div style="float:left; background-color: #333; width: 200px; height: 50px; padding: 10px; display:flex; margin: 5px">
-      <img src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg' width="25" height="25" style="border-radius:5px">
-      <p style="color: white; padding: 5px">Next.js</p>
-    </div>
-	<div style="float:left; background-color: #333; width: 200px; height: 50px; padding: 10px; display:flex; margin: 5px">
-      <img src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original-wordmark.svg' width="25" height="25" style="border-radius:5px">
-      <p style="color: white; padding: 5px">Tailwind</p>
-    </div></div>
+<table><tr><td style="padding: 5px;">
+        <div style="background-color: #333; width: 200px; height: 50px; padding: 10px;">
+            <img src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg' width="25" height="25" style="border-radius: 5px;">
+            <p style="color: white; padding: 5px; margin: 0;">Next.js</p>
+        </div>
+    </td><td style="padding: 5px;">
+        <div style="background-color: #333; width: 200px; height: 50px; padding: 10px;">
+            <img src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original-wordmark.svg' width="25" height="25" style="border-radius: 5px;">
+            <p style="color: white; padding: 5px; margin: 0;">Tailwind</p>
+        </div>
+    </td></tr></table>
     
 ### How to run 🏃
 	 Clone the repository.
