@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
 type Tech = [string, string];
 
@@ -83,6 +83,10 @@ export default function Home() {
     setSelectedTechs(prev => prev.filter(item => item !== tech));
   }
 
+  function selectTech(event: ChangeEvent<HTMLSelectElement>){
+    setCurrentTech(techs[event.target.selectedIndex]);
+  }
+
   function openSaveMenu() {
     dialogRef.current?.showModal();
   }
@@ -97,7 +101,7 @@ export default function Home() {
         <main className="max-w-screen-xl h-max m-auto flex justify-center flex-col">
           <h1 className="text-center text-white font-bold text-4xl my-5">README Generator</h1>
           <section className="w-11/12 md:w-3/4 h-screen mx-auto border-4 border-green-700 rounded overflow-auto">
-            <div className="w-full h-1/4 md:h-1/8 grid grid-cols-1 md:grid-cols-2">
+            <div className="w-full h-1/3 sm:h-1/4 md:h-1/8 grid grid-cols-1 md:grid-cols-2 my-5">
               <div className="h-full flex justify-center flex-col">
                 <h1 className="text-white my-5 text-center">Project Name</h1>
                 <input className="whiteBox h-1/2 w-11/12 m-auto"
@@ -133,19 +137,20 @@ export default function Home() {
               <div className="h-full w-full text-center">
                 <h1 className="text-white my-5">Project Techs</h1>
                 <section className="whiteBox h-5/6 w-11/12 flex flex-col my-5 mx-auto">
-                  <select className="bg-gray-800 text-white w-1/2 h-16 text-center my-5 m-auto">
-                    {Object.values(techs.sort()).map(tech =>
+                  <select className="bg-gray-800 text-white w-1/2 h-16 text-center my-5 m-auto"
+                  onChange={(event) => selectTech(event)}>
+                    {Object.values(techs.sort()).map((tech, index) =>
                       <option
                         className="bg-gray-800"
-                        key={tech[0]}
-                        onClick={() => setCurrentTech(tech)}
+                        key={index}
+                        value={index}
                       >{tech[0]}</option>)}
                   </select>
                   <button className="bg-blue-600 text-white w-32 h-12 font-bold mx-auto"
                     onClick={addTech}>Add</button>
-                  <div className="border-t-2 border-gray-600 h-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 mt-5 overflow-auto">
-                    {Object.values(selectedTechs).map(tech =>
-                      <div key={tech[0]} className="w-40 h-10 mx-auto my-2.5 grid grid-cols-5 bg-gray-800 cursor-pointer" onClick={() => removeTech(tech)}>
+                  <div className="border-t-2 border-gray-600 h-max flex flex-wrap mt-5 overflow-auto">
+                    {Object.values(selectedTechs).map((tech, index) =>
+                      <div key={index} className="w-40 h-10 mx-auto my-5 grid grid-cols-5 bg-gray-800 cursor-pointer" onClick={() => removeTech(tech)}>
                         <div className="col-span-1 my-auto">
                           <img src={tech[1]} alt={tech[0]} className="h-auto w-1/2 object-cover mx-2.5" />
                         </div>
@@ -169,9 +174,9 @@ export default function Home() {
             <h2 className="text-white font-bold text-2xl m-5">Where can I acess it? 🖥</h2>
             <p className="text-white text-lg m-5">You can acess it <a href={projectDescription} target="_blank" className="text-blue-500">here</a></p>
             <h2 className="text-white font-bold text-2xl m-5">Which tecnologies were used to build it? 🚀 </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 m-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-max m-auto sm:m-2.5">
               {Object.values(selectedTechs).map(tech =>
-                <div key={tech[0]} className="w-40 h-10 my-2.5 grid grid-cols-5 bg-gray-700 cursor-pointer">
+                <div key={tech[0]} className="w-40 h-10 m-2.5 grid grid-cols-5 bg-gray-700 cursor-pointer">
                   <div className="col-span-1 my-auto">
                     <img src={tech[1]} alt={tech[0]} className="h-auto w-1/2 object-cover mx-2.5" />
                   </div>
@@ -179,7 +184,9 @@ export default function Home() {
                 </div>)}
             </div>
             <h2 className="text-white font-bold text-2xl m-5">How to run in development mode 🏃</h2>
-            <p className="m-5 text-white bg-gray-700">{projectInstructions}</p>
+            <div className="mb-5">
+              {projectInstructions.split("\n").map((instruction, index) =><p key={index} className="mx-5 pl-2.5 text-white bg-gray-700">{instruction}</p>)}
+            </div>
           </section>
           <button className="bg-green-800 text-white w-48 h-12 font-bold mx-auto my-5"
             onClick={openSaveMenu}>Copy</button>
