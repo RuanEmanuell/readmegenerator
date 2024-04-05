@@ -21,7 +21,12 @@ You can acess it <a href="https://readmegenerator-ruanemanuell.vercel.app/">here
     </div></div>
     
 ### How to run 🏃
-		Clone the repository.
-		Install dependencies using 'npm install'.
-		Run Next with 'npm run dev'.
-		Access http://localhost:3000 in your browser.
+	 Clone the repository.
+	 Install dependencies using 'npm install'.
+     Run Next with 'npm run dev'.
+	 Access http://localhost:3000 in your browser.
+
+### Here are some images of the project running ⚡️: 
+![image](https://github.com/RuanEmanuell/readmegenerator/assets/113607857/8d2186cd-8373-4891-b7fe-ed0b53c7a44a)
+![image](https://github.com/RuanEmanuell/readmegenerator/assets/113607857/eeee462d-ba11-4618-bae7-b8d9f3ec4d74)
+
