@@ -103,7 +103,7 @@ export default function Home() {
 
   async function generateReadmeText() {
     const techsText = selectedTechs.map(tech => 
-    `<div style="background-color: #333; width: 200px; height: 50px; padding: 10px; display:flex; margin: 5px">
+    `<div style="float:left; background-color: #333; width: 200px; height: 50px; padding: 10px; display:flex; margin: 5px">
       <img src='${tech[1]}' width="25" height="25" style="border-radius:5px">
       <p style="color: white; padding: 5px">${tech[0]}</p>
     </div>`).join('\n\t');
@@ -120,7 +120,7 @@ ${projectDescription}
 You can acess it <a href="${projectWebsite}">here</a>
     
 ### Which tecnologies were used to build it? 🚀 
-<div style="display: flex; flex-wrap: wrap">${techsText}</div>
+<div style="overflow: auto">${techsText}</div>
     
 ### How to run 🏃
 ${instructionsText}`
